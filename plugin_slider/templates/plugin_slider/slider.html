@@ -1,0 +1,47 @@
+{% load sekizai_tags %}
+{% load thumbnail %}
+
+
+{% addtoblock "js" %}
+{% endaddtoblock %}
+
+{% addtoblock "css" %}
+{% endaddtoblock %}
+<!--
+data-width="{{ object.width }}"
+  data-height="{{ object.height }}"
+  data-margin="{{ object.margin }}"
+  data-min-slides="{{ object.min_slides }}"
+  data-max-slides="{{ object.max_slides }}"
+-->
+<ul id="slider_{{object.pk}}" data-orbit
+
+  data-options="  animation:{{ object.animation }};
+                  timer_speed:{{ object.pause_time }};
+                  pause_on_hover:true;
+                  animation_speed:{{ object.anim_speed }};
+                  navigation_arrows:{{ object.arrows|yesno:'true,false' }};
+                  bullets:{{ object.paginator|yesno:'true,false' }};
+                  slide_number_text:de;
+                  timer: true"
+                  >
+
+  {% for img in images %}
+    <li>
+      {% if img.url_target %}
+      <a href="{{img.url_target}}">
+      {% else %}
+        {% if img.page %}
+          <a href="{{img.page.get_absolute_url}}">
+        {% endif %}
+      {% endif %}
+        <img src='{% thumbnail img.image object.size crop upscale %}' width="{{ object.width }}" height="{{ object.height }}" alt="{{img.name|default:''}}" >
+      {% if img.url_target or img.page %}
+      </a>
+      {% endif %}
+
+    </li>
+  {% endfor %}
+</ul>
+
+
