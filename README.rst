@@ -1,5 +1,5 @@
 =====
-cmsplugin-slider
+cmsplugin-sliders
 =====
 
 plugin_slider is a plugin for django-cms

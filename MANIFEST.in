@@ -1,6 +1,6 @@
 include LICENSE
 include README.rst
-recursive-include plugin_slider/static *
-recursive-include plugin_slider/templates *
-recursive-include plugin_slider/migrations *
+recursive-include djangocms_slider/static *
+recursive-include djangocms_slider/templates *
+recursive-include djangocms_slider/migrations *
 recursive-include docs *
