@@ -30,13 +30,7 @@
   </script>
 {% endaddtoblock %}
 
-<!--
-data-width="{{ object.width }}"
-  data-height="{{ object.height }}"
-  data-margin="{{ object.margin }}"
-  data-min-slides="{{ object.min_slides }}"
-  data-max-slides="{{ object.max_slides }}"
--->
+
 <div id="slider_{{object.pk}}">
 
   {% for img in images %}
@@ -49,7 +43,7 @@ data-width="{{ object.width }}"
         {% endif %}
       {% endif %}
         {% thumbnail img object.size crop upscale as thumb %}
-        <img src='{{thumb.url}}' width="{{ object.width }}" height="{{ object.height }}" alt="{{img.name|default:''}}" >
+        <img src='{{thumb.url}}' alt="{{img.name|default:''}}" >
         {% if img.url_target or img.page %}
           </a>
       {% endif %}
