@@ -3,11 +3,26 @@
 
 
 {% addtoblock "css" %}
-
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css">
-
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css">
 {% endaddtoblock %}
+
+
+<div id="slider_{{object.pk}}" class="slider">
+  {% for img in images %}
+    <div  class="slider-item">
+      {% thumbnail img.image object.size crop upscale as thumb %}
+      <img src='{{thumb.url}}' alt="{{img.name|default:''}}" >
+      <div class="slider-caption-text">
+        <h1>{{img.title|default:''}}</h1>
+        {% if img.caption_text %}
+          {{img.caption_text|linebreaks}}
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
 
 {% addtoblock "js" %}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
@@ -17,9 +32,9 @@
    $('#slider_{{object.pk}}').owlCarousel({
         singleItem: true,
         autoPlay: true,
-        pagination: false,
+        pagination: {{object.paginator|lower}},
+        navigation: {{object.arrows|lower}},
         autoHeight: true,
-        navigation: false,
         transitionStyle:"fade",
         navigationText: [
           "<i class='fa fa-chevron-left'></i>",
@@ -29,24 +44,3 @@
 
   </script>
 {% endaddtoblock %}
-
-
-<div id="slider_{{object.pk}}">
-
-  {% for img in images %}
-    <div  class="item">
-      {% if img.url_target %}
-      <a href="{{img.url_target}}">
-      {% else %}
-        {% if img.page %}
-          <a href="{{img.page.get_absolute_url}}">
-        {% endif %}
-      {% endif %}
-        {% thumbnail img object.size crop upscale as thumb %}
-        <img src='{{thumb.url}}' alt="{{img.name|default:''}}" >
-        {% if img.url_target or img.page %}
-          </a>
-      {% endif %}
-    </div>
-  {% endfor %}
-</div>

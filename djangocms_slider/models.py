@@ -7,8 +7,6 @@ from filer.fields.image import FilerImageField
 from filer.fields.folder import FilerFolderField
 
 
-
-
 class SliderPluginModel(CMSPlugin):
     PLUGIN_ANIMATION = (
             ('fade', "Fade"),
@@ -35,19 +33,31 @@ class SliderPluginModel(CMSPlugin):
     paginator = models.BooleanField(_('paginator'), default=True,
                           help_text=_('Paginator buttons for navigation'))
 
-
-    album = FilerFolderField(verbose_name=_('album'))
-
-    @property
-    def images(self):
-        if not hasattr(self, '__images'):
-            files = self.album.files
-            self.__images = [f for f in files if f.file_type == 'Image']
-            self.__images.sort()
-            print self.__images[0].__class__
-        return self.__images
-
     @property
     def size(self):
         if self.width and self.height:
             return "%dx%d" % (self.width, self.height)
+
+    def copy_relations(self, oldinstance):
+        for image in oldinstance.images.all():
+            image.pk = None
+            image.slider = self
+            image.save()
+
+
+class Image(models.Model):
+
+    class Meta:
+        verbose_name_plural = _('images')
+        pass
+
+    slider = models.ForeignKey(SliderPluginModel, related_name="images")
+    image = FilerImageField(related_name=_('image'),)
+    title = models.TextField(_('title'),null=True,blank=True,)
+    caption_text = models.TextField(_('caption text'),null=True,blank=True,)
+
+    def __str__(self):
+        if self.title:
+            return self.title
+        else:
+            return self.image.label
