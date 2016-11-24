@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='djangocms-slider',
-    version='0.2',
+    version='0.2.1',
     packages=['djangocms_slider'],
     include_package_data=True,
     license='BSD License',
@@ -19,7 +19,7 @@ setup(
     author='Pedro Grisales',
     author_email='grial313@gmail.com',
     install_requires=[
-        "django>=1.8.0, <1.10",
+        "django>1.9.0",
         "django-cms>=3.0",
     ],
     classifiers=[
