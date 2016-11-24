@@ -18,8 +18,7 @@ class SliderPlugin(CMSPluginBase):
     render_template = "djangocms_slider/slider.html"
     fieldsets = (
         (None, {
-            'fields': ('album',
-                       ('animation', 'anim_speed', 'pause_time',),),
+            'fields': ('animation', 'anim_speed', 'pause_time',)
         }),
         (_('Controls'), {
             'fields': ('arrows','paginator',)
